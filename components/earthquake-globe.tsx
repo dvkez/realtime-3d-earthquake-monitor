@@ -5,21 +5,14 @@ import { Canvas, useFrame, useThree } from '@react-three/fiber'
 import { OrbitControls, Html, useTexture, Stars } from '@react-three/drei'
 import { useEarthquake, Earthquake } from './earthquake-context'
 import * as THREE from 'three'
+import { Play, Pause, RotateCcw } from 'lucide-react'
 
 function EarthMesh() {
-  const earthRef = useRef<THREE.Mesh>(null)
   const texture = useTexture('/assets/3d/texture_earth.jpg')
-
-  useFrame(() => {
-    if (earthRef.current) {
-      // Gentle subtle rotation when idle
-      earthRef.current.rotation.y += 0.0003
-    }
-  })
 
   return (
     <group>
-      <mesh ref={earthRef}>
+      <mesh>
         <sphereGeometry args={[1, 64, 64]} />
         <meshStandardMaterial 
           map={texture} 
@@ -27,7 +20,7 @@ function EarthMesh() {
           roughness={0.65}
         />
       </mesh>
-      {/* Atmosphere glow */}
+      {/* Atmosphere glow shell */}
       <mesh scale={[1.025, 1.025, 1.025]}>
         <sphereGeometry args={[1, 32, 32]} />
         <meshBasicMaterial 
@@ -124,7 +117,7 @@ function EarthquakeMarkerItem({
       {/* Interactive Tooltip */}
       {(isHovered || isSelected) && (
         <Html position={[0, baseRadius * 2, 0]} style={{ pointerEvents: 'none' }}>
-          <div className="bg-slate-950/90 text-white p-2.5 rounded-lg border border-slate-700 shadow-2xl text-xs whitespace-nowrap min-w-[180px] backdrop-blur-md">
+          <div className="bg-slate-950/95 text-white p-2.5 rounded-lg border border-slate-700 shadow-2xl text-xs whitespace-nowrap min-w-[180px] backdrop-blur-md">
             <div className="flex items-center justify-between gap-2 mb-1">
               <span className="font-bold text-sm px-1.5 py-0.5 rounded" style={{ backgroundColor: color, color: '#000' }}>
                 M{mag.toFixed(1)}
@@ -152,7 +145,7 @@ function EarthquakeMarkers() {
   const { camera } = useThree()
   const [hoveredQuake, setHoveredQuake] = useState<string | null>(null)
 
-  // Cap markers to top 400 for 60fps performance
+  // Limit to 400 for high framerate
   const visibleQuakes = useMemo(() => {
     return filteredEarthquakes.slice(0, 400)
   }, [filteredEarthquakes])
@@ -193,6 +186,16 @@ function EarthquakeMarkers() {
 }
 
 export function EarthquakeGlobe() {
+  const { selectedEarthquakes, language } = useEarthquake()
+  const [autoRotate, setAutoRotate] = useState(false)
+  const controlsRef = useRef<any>(null)
+
+  const resetCamera = () => {
+    if (controlsRef.current) {
+      controlsRef.current.reset()
+    }
+  }
+
   return (
     <div className="w-full h-full relative">
       <Canvas camera={{ position: [0, 0, 2.9], fov: 45 }}>
@@ -205,14 +208,45 @@ export function EarthquakeGlobe() {
           <EarthquakeMarkers />
         </Suspense>
         <OrbitControls 
+          ref={controlsRef}
           enablePan={false} 
           minDistance={1.4} 
           maxDistance={5.5} 
           rotateSpeed={0.6}
+          autoRotate={autoRotate && selectedEarthquakes.size === 0}
+          autoRotateSpeed={0.6}
         />
       </Canvas>
-      <div className="absolute bottom-2 left-2 text-[11px] text-slate-400 bg-black/60 px-2 py-1 rounded backdrop-blur-sm pointer-events-none">
-        Arrastra para rotar • Rueda para zoom • Clic en un punto para enfocar
+
+      {/* Floating Instructions */}
+      <div className="absolute bottom-2 left-2 text-[11px] text-slate-400 bg-black/60 px-2.5 py-1 rounded backdrop-blur-sm pointer-events-none">
+        {language === 'es' 
+          ? 'Arrastra para rotar • Rueda para zoom • Clic en un punto para enfocar'
+          : 'Drag to rotate • Scroll to zoom • Click dot to focus'}
+      </div>
+
+      {/* Floating Controls Bar */}
+      <div className="absolute bottom-2 right-2 z-10 flex items-center gap-1.5">
+        <button
+          onClick={() => setAutoRotate(prev => !prev)}
+          className={`text-[11px] px-2.5 py-1 rounded border backdrop-blur-md transition-all flex items-center gap-1.5 ${
+            autoRotate 
+              ? 'bg-blue-600 border-blue-500 text-white font-medium shadow-lg' 
+              : 'bg-slate-900/80 border-slate-700 text-slate-300 hover:text-white hover:bg-slate-800'
+          }`}
+          title={language === 'es' ? 'Alternar rotación automática' : 'Toggle auto-rotation'}
+        >
+          {autoRotate ? <Pause className="h-3 w-3" /> : <Play className="h-3 w-3" />}
+          <span>{autoRotate ? (language === 'es' ? 'Pausar' : 'Pause') : (language === 'es' ? 'Auto-rotar' : 'Auto-rotate')}</span>
+        </button>
+
+        <button
+          onClick={resetCamera}
+          className="text-[11px] px-2 py-1 rounded border border-slate-700 bg-slate-900/80 hover:bg-slate-800 text-slate-300 hover:text-white backdrop-blur-md transition-colors flex items-center gap-1"
+          title={language === 'es' ? 'Restablecer vista' : 'Reset view'}
+        >
+          <RotateCcw className="h-3 w-3" />
+        </button>
       </div>
     </div>
   )
