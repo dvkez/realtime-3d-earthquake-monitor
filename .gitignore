@@ -1,0 +1,52 @@
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# Dependencies
+/node_modules
+/.pnp
+.pnp.js
+.yarn/cache
+
+# Next.js build and cache
+/.next/
+/out/
+/build
+.next/cache/
+
+# Debug logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# Environment files and secrets (Crucial for GitHub Public)
+.env
+.env*.local
+.env.development
+.env.test
+.env.production
+*.env
+
+# Vercel deployment metadata
+.vercel
+
+# TypeScript & build info
+*.tsbuildinfo
+next-env.d.ts
+
+# Operating System files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+desktop.ini
+
+# IDE & Editor files
+.idea/
+.vscode/
+*.swp
+*.swo
+*.sublime-project
+*.sublime-workspace
