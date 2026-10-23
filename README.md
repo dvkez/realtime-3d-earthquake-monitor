@@ -1,5 +1,6 @@
 # 🌍 Realtime 3D Earthquake Monitor
 
+[![Live Demo](https://img.shields.io/badge/Demo-Live%20Preview-0070F3?style=for-the-badge&logo=vercel&logoColor=white)](https://realtime-3d-earthquake-monitor.vercel.app/)
 [![Next.js](https://img.shields.io/badge/Next.js-15.5.28-black?style=for-the-badge&logo=next.js)](https://nextjs.org/)
 [![React](https://img.shields.io/badge/React-19.0.0-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://react.dev/)
 [![Three.js](https://img.shields.io/badge/Three.js-0.170-black?style=for-the-badge&logo=three.js)](https://threejs.org/)
@@ -7,113 +8,127 @@
 [![Tailwind CSS](https://img.shields.io/badge/TailwindCSS-3.4-38B2AC?style=for-the-badge&logo=tailwind-css)](https://tailwindcss.com/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg?style=for-the-badge)](https://opensource.org/licenses/MIT)
 
-> **Realtime 3D Earthquake Monitor** es una aplicación web interactiva de monitoreo sísmico global en tiempo real. Combina un globo terráqueo 3D acelerado por hardware con WebGL, proyección de mapa 2D cilíndrico, analítica temporal de magnitudes y el feed público en vivo del **USGS (United States Geological Survey)**.
+> An interactive, real-time 3D global earthquake visualizer and seismic monitoring dashboard. Combines hardware-accelerated WebGL with Three.js, a 2D equirectangular command map, temporal magnitude analytics, and live feeds from the **USGS (United States Geological Survey)**.
+
+🔗 **Live Deployment:** [https://realtime-3d-earthquake-monitor.vercel.app/](https://realtime-3d-earthquake-monitor.vercel.app/)
 
 ---
 
-## ✨ Características Principales
+## 📸 Preview
 
-- **🌐 Globo Terráqueo 3D Interactivo**:
-  - Renderizado con **Three.js** y **React Three Fiber (v9)**.
-  - Textura fotorrealista de la Tierra con halo atmosférico y fondo estelar.
-  - Marcadores esféricos con escala y código de color según la magnitud sísmica:
-    - 🟢 **M < 2.5**: Leve
-    - 🟡 **M 2.5 - 4.5**: Moderado
-    - 🟠 **M 4.5 - 6.0**: Fuerte
-    - 🔴 **M > 6.0**: Severo / Mayor (con anillo pulsante interactivo).
-  - Navegación orbital suave (rotación, zoom y centrado automático de cámara al seleccionar un sismo).
-
-- **🗺️ Modo Mapa 2D de Comando**:
-  - Alternador instantáneo entre visualización 3D y proyección cilíndrica equirrectangular 2D sobre Canvas de alto rendimiento.
-  - Retícula geográfica de latitud y longitud, ecuador y meridiano de referencia.
-
-- **📊 Gráfico Cronológico de Magnitudes**:
-  - Analítica interactiva con **ApexCharts**.
-  - Agrupación temporal dinámica en 24 horas, 7 días, 30 días y rangos anuales.
-  - Navegación entre periodos temporales (anterior / siguiente).
-
-- **🔍 Búsqueda y Filtros en Tiempo Real**:
-  - Buscador textual reactivo por ubicación (ej: *"Chile"*, *"Japan"*, *"California"*, *"Mexico"*).
-  - Chips de filtrado rápido por magnitud mínima (Todos, M2.5+, M4.5+, M6.0+).
-
-- **🌐 Soporte Bilingüe Completo (EN / ES)**:
-  - Cambio de idioma instantáneo entre Español e Inglés sin recargar la página.
-
-- **⚡ Datos Abiertos y Seguros**:
-  - Conexión directa al API REST abierto de USGS sin necesidad de API keys privadas.
-  - Auto-actualización periódica cada 5 minutos con indicador visual *"USGS Live Feed"*.
+![Realtime 3D Earthquake Monitor Preview](./preview.png)
 
 ---
 
-## 🛠️ Tecnologías Utilizadas
+## ✨ Features
 
-| Capa | Tecnología |
+- **🌐 Interactive 3D WebGL Globe**:
+  - Rendered with **Three.js** and **React Three Fiber (v9)** on **React 19**.
+  - Photorealistic Earth texture with cyan atmospheric glow and deep-space starfield.
+  - Earthquake markers physically anchored to exact geographic coordinates:
+    - 🟢 **M < 2.5**: Minor / Micro
+    - 🟡 **M 2.5 - 4.5**: Light / Moderate
+    - 🟠 **M 4.5 - 6.0**: Strong
+    - 🔴 **M > 6.0**: Severe / Major (with 3D animated pulsing beacon ring).
+  - Smooth orbit controls with intuitive camera fly-to upon selecting any seismic event.
+  - Optional smooth camera auto-rotation with single-click play/pause toggle.
+
+- **🗺️ 2D Equirectangular Command Map**:
+  - Seamless one-click switcher between **3D Globe** and **2D World Map**.
+  - High-performance HTML5 Canvas projection with true 2:1 geographic aspect ratio.
+  - Full coordinate reference lines (Latitude, Longitude, Equator, Prime Meridian).
+  - Built-in **Zoom (`+` / `-`)**, **Pan & Drag**, and **Reset (`↺`)** controls.
+
+- **📊 Timeline Seismic Analytics**:
+  - Powered by **ApexCharts** with responsive dark theme styling.
+  - Dynamic time grouping: 24 Hours, 7 Days, 30 Days, and 1 Year queries.
+  - Period-by-period browsing with forward/backward navigation controls.
+
+- **🔍 Live Search & Filter Engine**:
+  - Real-time location search (e.g., *"California"*, *"Japan"*, *"Chile"*, *"Alaska"*).
+  - Quick filter chips by minimum magnitude (All, M2.5+, M4.5+, M6.0+).
+  - Interactive event list with magnitude badges, timestamp, and focal depth.
+
+- **🌐 Instant Bilingual Toggle (EN / ES)**:
+  - Switch between English and Spanish on the fly without page reloads.
+
+- **⚡ Live USGS Open Data Integration**:
+  - Direct connection to official USGS GeoJSON feeds without requiring private API keys.
+  - Automated polling every 5 minutes with real-time status beacon.
+
+---
+
+## 🛠️ Tech Stack
+
+| Layer | Technology |
 | :--- | :--- |
-| **Framework Web** | [Next.js 15](https://nextjs.org/) (App Router, Server Components & Client Hydration) |
-| **Biblioteca UI** | [React 19](https://react.dev/) |
-| **Gráficos 3D / WebGL** | [Three.js](https://threejs.org/), [@react-three/fiber](https://docs.pmnd.rs/react-three-fiber), [@react-three/drei](https://github.com/pmndrs/drei) |
-| **Estilos & Diseño** | [Tailwind CSS](https://tailwindcss.com/), Radix UI / Shadcn UI |
-| **Visualización de Datos** | [ApexCharts](https://apexcharts.com/) / `react-apexcharts`, [Recharts](https://recharts.org/) |
-| **Fuente de Datos** | [USGS Earthquake Hazards Program](https://earthquake.usgs.gov/) |
-| **Iconos** | [Lucide React](https://lucide.dev/) |
+| **Framework** | [Next.js 15](https://nextjs.org/) (App Router, Server Components & Client Hydration) |
+| **Frontend Library** | [React 19](https://react.dev/) |
+| **3D Graphics & WebGL** | [Three.js](https://threejs.org/), [@react-three/fiber](https://docs.pmnd.rs/react-three-fiber), [@react-three/drei](https://github.com/pmndrs/drei) |
+| **Styling & Design System** | [Tailwind CSS](https://tailwindcss.com/), Radix UI / Shadcn UI |
+| **Data Visualization** | [ApexCharts](https://apexcharts.com/) / `react-apexcharts`, [Recharts](https://recharts.org/) |
+| **Data Provider** | [USGS Earthquake Hazards Program](https://earthquake.usgs.gov/) |
+| **Icons** | [Lucide React](https://lucide.dev/) |
+| **Hosting** | [Vercel](https://vercel.com/) |
 
 ---
 
-## 📁 Estructura del Proyecto
+## 📁 Project Structure
 
 ```plaintext
 realtime-3-d-react-app/
 ├── app/
-│   ├── globals.css              # Tokens de diseño, temas oscuro/claro y Tailwind
-│   ├── layout.tsx               # Metadatos SEO, fuentes Inter y viewport
-│   └── page.tsx                 # Tablero principal y alternador de vistas 3D/2D
+│   ├── globals.css              # Tailwind CSS and Shadcn dark/light design tokens
+│   ├── layout.tsx               # SEO metadata, OpenGraph tags, Inter font
+│   └── page.tsx                 # Main dashboard and 3D/2D viewport switcher
 ├── components/
-│   ├── ui/                      # Componentes accesibles base (Shadcn/Radix)
-│   ├── earthquake-context.tsx   # Estado global, consumo del API USGS y filtros
-│   ├── earthquake-globe.tsx     # Globo 3D con Three.js, marcadores y atmósfera
-│   ├── earthquake-map-2d.tsx    # Proyección de mapa 2D equirrectangular
-│   ├── earthquake-chart.tsx     # Analítica cronológica con ApexCharts
-│   ├── earthquake-list.tsx      # Lista paginada con buscador y filtros
-│   ├── earth.tsx                # Malla 3D reutilizable de la Tierra
-│   └── header.tsx               # Barra superior, selector de vista y estado en vivo
+│   ├── ui/                      # Accessible UI components (Shadcn/Radix)
+│   ├── earthquake-context.tsx   # Global state, USGS API client and filtering
+│   ├── earthquake-globe.tsx     # 3D Globe with Three.js, markers and atmosphere
+│   ├── earthquake-map-2d.tsx    # 2D Canvas equirectangular world map
+│   ├── earthquake-chart.tsx     # ApexCharts chronological magnitude chart
+│   ├── earthquake-list.tsx      # Paginated event list with search & filters
+│   ├── earth.tsx                # Standalone reusable 3D Earth mesh
+│   └── header.tsx               # Navbar, view toggle, and live feed status
 ├── public/
-│   ├── assets/3d/               # Textura fotorrealista de la Tierra
-│   └── icons & favicons         # Iconos de la aplicación
-├── .env.example                 # Plantilla de variables de entorno (sin secretos)
-├── .gitignore                   # Exclusiones de seguridad (archivos locales, temporales)
-├── next.config.mjs              # Configuración optimizada de Next.js
-├── package.json                 # Dependencias y scripts de ejecución
-├── tailwind.config.ts           # Configuración de temas de Tailwind
-└── tsconfig.json                # Configuración estricta de TypeScript
+│   ├── assets/3d/               # High-resolution Earth texture map
+│   ├── preview.png              # Readme visual preview screenshot
+│   └── icons & favicons         # Application icons and manifest
+├── .env.example                 # Environment variables template (no secrets needed)
+├── .gitignore                   # Strict exclusions (node_modules, .next, .env)
+├── next.config.mjs              # Next.js production configuration
+├── package.json                 # Dependencies and execution scripts
+├── tailwind.config.ts           # Tailwind configuration
+└── tsconfig.json                # Strict TypeScript configuration
 ```
 
 ---
 
-## 🚀 Inicio Rápido en Local
+## 🚀 Quickstart & Local Setup
 
-### 1. Requisitos Previos
-- **Node.js** v18 o superior (recomendado v20+ o v24).
-- **npm**, **pnpm** o **yarn**.
+### 1. Prerequisites
+- **Node.js** v18 or higher (v20+ or v24 recommended).
+- **npm**, **pnpm**, or **yarn**.
 
-### 2. Clonar e Instalar Dependencias
+### 2. Clone and Install Dependencies
 ```bash
-# Clonar el repositorio
-git clone https://github.com/TU-USUARIO/realtime-3d-earthquake-monitor.git
+# Clone the repository
+git clone https://github.com/YOUR-USERNAME/realtime-3d-earthquake-monitor.git
 
-# Entrar a la carpeta
+# Navigate into project directory
 cd realtime-3d-earthquake-monitor
 
-# Instalar dependencias
+# Install dependencies
 npm install
 ```
 
-### 3. Ejecutar en Modo Desarrollo
+### 3. Run Development Server
 ```bash
 npm run dev
 ```
-Abre tu navegador en [http://localhost:3000](http://localhost:3000) para ver la aplicación en funcionamiento.
+Open [http://localhost:3000](http://localhost:3000) in your browser to view the application.
 
-### 4. Compilar para Producción
+### 4. Build for Production
 ```bash
 npm run build
 npm run start
@@ -121,26 +136,26 @@ npm run start
 
 ---
 
-## 🔒 Seguridad y Privacidad
+## 🔒 Security & Privacy
 
-- **Sin Claves Privadas Expuestas**: Este proyecto utiliza datos abiertos y públicos provistos por el **USGS**. No requiere ninguna clave de API obligatoria para operar.
-- **`.gitignore` Reforzado**: Se han configurado reglas estrictas para evitar que archivos `.env`, `.env.local`, claves de sesión o credenciales accidentales se sincronicen con GitHub.
-- Si deseas integrar proveedores adicionales (como Mapbox o análisis personalizados), utiliza `.env.example` como plantilla para crear tu propio archivo `.env.local`.
-
----
-
-## 🌐 Despliegue en la Nube (Vercel)
-
-La forma más sencilla de desplegar este proyecto es a través de **Vercel**:
-
-1. Sube tu repositorio a GitHub.
-2. Inicia sesión en [Vercel](https://vercel.com).
-3. Haz clic en **"Add New Project"** e importa tu repositorio de GitHub.
-4. Presiona **"Deploy"**. Vercel detectará automáticamente Next.js 15 y desplegará la aplicación en segundos.
+- **No Private API Keys Required**: This project connects directly to the public open data API provided by the **USGS**.
+- **Safeguarded `.gitignore`**: Pre-configured rules ensure local configuration files (`.env`, `.env.local`), build artifacts (`.next/`, `build/`), and dependencies (`node_modules/`) are never pushed to GitHub.
+- If you wish to extend the project with optional third-party integrations (such as Mapbox or custom analytics), use `.env.example` as a template for your `.env.local` file.
 
 ---
 
-## 📄 Atribución y Licencia
+## 🌐 Deploy to Vercel
 
-- **Datos Sísmicos**: Agradecimiento a [USGS Earthquake Hazards Program](https://earthquake.usgs.gov/) por su API de datos abiertos.
-- **Licencia**: Este proyecto está licenciado bajo la Licencia **MIT**. Consulta el archivo `LICENSE` o siéntete libre de utilizarlo para fines educativos, personales y comerciales.
+The easiest way to deploy this application is using the [Vercel Platform](https://vercel.com):
+
+1. Push your code to your GitHub repository.
+2. Sign in to [Vercel](https://vercel.com/) and click **"Add New Project"**.
+3. Import your GitHub repository.
+4. Click **"Deploy"**. Vercel will automatically detect Next.js 15 and launch your site in seconds.
+
+---
+
+## 📄 License & Attribution
+
+- **Data Attribution**: Seismic event data provided by the [USGS Earthquake Hazards Program](https://earthquake.usgs.gov/).
+- **License**: This project is open-source and licensed under the [MIT License](LICENSE).
